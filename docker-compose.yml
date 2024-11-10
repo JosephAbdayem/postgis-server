@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgis/postgis:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: geoserver
+      POSTGRES_PASSWORD: geoserver_password
+      POSTGRES_DB: geodata
+    networks:
+      - geoserver_network
+    ports:
+      - "5432:5432"
+
+  geoserver:
+    image: oscarfonts/geoserver:latest
+    container_name: geoserver
+    networks:
+      - geoserver_network
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+networks:
+  geoserver_network:
+    driver: bridge
