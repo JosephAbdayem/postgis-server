@@ -1,7 +1,6 @@
 services:
   postgres:
     image: postgis/postgis:latest
-    container_name: postgres
     environment:
       POSTGRES_USER: geoserver
       POSTGRES_PASSWORD: geoserver_password
@@ -13,7 +12,6 @@ services:
 
   geoserver:
     image: oscarfonts/geoserver:latest
-    container_name: geoserver
     networks:
       - geoserver_network
     ports:

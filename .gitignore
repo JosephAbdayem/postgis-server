@@ -1,0 +1,39 @@
+# Ambiente Virtual
+venv/
+.env
+
+# Arquivos de configuração e credenciais
+*.env
+alembic.ini
+
+# Arquivos de cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Configurações do editor de código
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Arquivos de debug e temporários do sistema
+*.DS_Store
+*.swp
+*.swo
+*.tmp
+
+# Arquivos de output
+*.out
+
+# Arquivos de banco de dados local (caso tenha algum)
+*.sqlite3
+
+# Pasta de migrations automáticas do Alembic
+migrations/versions/
+
+# Outros arquivos e diretórios comuns a serem ignorados
+*.egg-info/
+dist/
+build/
