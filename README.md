@@ -1,79 +1,91 @@
 # 🌐 FastAPI & PostGIS Backend with GeoServer
 
-This project provides a FastAPI backend for geospatial data, integrated with **PostGIS** for spatial database support and **GeoServer** for advanced geospatial services. This backend can be used with a client application, such as the [OpenLayers Angular Map Project](https://github.com/JosephAbdayem/openlayers-angular), to serve and visualize spatial data.
+This project provides a FastAPI backend for geospatial data, integrated with **PostGIS** for spatial database support and **GeoServer** for geospatial services. This setup is compatible with client applications such as the [OpenLayers Angular Map Project](https://github.com/JosephAbdayem/openlayers-angular), enabling geospatial data visualization.
 
 ## 📋 Prerequisites
 
-Ensure the following dependencies are installed:
+Make sure you have:
 
-- **Docker**: For containerization.
-- **Docker Compose**: To manage multi-container Docker applications.
-- **FastAPI**: Installed and configured within the Docker container.
+- **Docker** and **Docker Compose**
 
 ## ⚙️ Setup Instructions
 
-### 1. Clone the Repository
+1. **Clone the Repository**:
 
-```bash
-git clone https://github.com/JosephAbdayem/postgis-server.git
-cd postgis-server
-```
+   ```bash
+   git clone https://github.com/JosephAbdayem/postgis-server.git
+   cd postgis-server
+   ```
 
-### 2. Start the Docker Containers
+2. **Start the Docker Containers**:
 
-Use Docker Compose to build and run the containers. This command sets up the FastAPI application, PostgreSQL with PostGIS, and GeoServer.
+   Use Docker Compose to build and run the containers:
 
-```bash
-docker-compose up --build -d
-```
+   ```bash
+   docker-compose up --build -d
+   ```
 
-- `--build` ensures fresh images are built for any recent code changes.
-- The FastAPI API will be available at `http://localhost:8000`.
-- GeoServer will be accessible at `http://localhost:8080`.
+   - FastAPI API: `http://localhost:8000`
+   - GeoServer: `http://localhost:8080`
 
-### 3. Access API Documentation and GeoServer
+3. **Access Documentation**:
 
-- **FastAPI Swagger UI**: [http://localhost:8000/docs](http://localhost:8000/docs)
-- **FastAPI ReDoc**: [http://localhost:8000/redoc](http://localhost:8000/redoc)
-- **GeoServer**: [http://localhost:8080](http://localhost:8080)
+   - **FastAPI Swagger UI**: [http://localhost:8000/docs](http://localhost:8000/docs)
+   - **GeoServer**: [http://localhost:8080](http://localhost:8080)
 
 ## 🚀 Usage
 
-- **PostGIS Database**: A spatial database in PostgreSQL with PostGIS support.
-- **GeoServer**: Provides a web interface for managing and publishing geospatial data as WMS/WFS services.
-- **API Endpoints**: The FastAPI backend provides endpoints for CRUD operations on geospatial data stored in PostGIS.
+- **PostGIS Database**: Spatial database support.
+- **GeoServer**: Web interface for managing and publishing spatial data via WMS/WFS services.
+- **API Endpoints**: FastAPI backend provides CRUD operations for geospatial data in PostGIS.
 
-### Example API Request
+## 🛠 Running FastAPI
 
-To retrieve geospatial data:
+To run the FastAPI server locally (without Docker), use:
 
-```http
-GET /geodata
+```bash
+uvicorn app.main:app --reload
 ```
 
-Additional endpoints can be explored in the Swagger UI or ReDoc interfaces.
+This command starts the FastAPI server in development mode with automatic reloading.
 
-## 🔄 Customization
+## 🔄 Running Alembic Migrations
 
-- **Database Configuration**: Environment variables (e.g., username, password, and database name) can be adjusted in `docker-compose.yml`.
-- **GeoServer**: Adjust GeoServer settings within its admin interface or configure WMS layers as needed.
+1. **Initialize Alembic (first-time setup only):**
 
-## 🛠 Project Structure
+   ```bash
+   alembic init migrations
+   ```
 
-- **FastAPI**: Acts as the main API framework.
-- **PostGIS/PostgreSQL**: Provides spatial capabilities to the database.
-- **GeoServer**: Handles web map services (WMS) and web feature services (WFS) for visualizing geospatial data.
-- **Docker Compose**: Manages multi-container applications to isolate and control each service.
+2. **Create a Migration Script:**
+
+   ```bash
+   alembic revision --autogenerate -m "Initial migration"
+   ```
+
+   This command generates a new migration based on the current database schema.
+
+3. **Apply Migrations to the Database:**
+
+   ```bash
+   alembic upgrade head
+   ```
+
+   This command applies all pending migrations.
+
+## 🔄 Configuration
+
+- **Database settings**: Adjust environment variables (e.g., username, password, and database name) in `docker-compose.yml`.
 
 ## 🐋 Docker Commands
 
-To stop the Docker containers:
+To stop the containers:
 
 ```bash
 docker-compose down
 ```
 
-To clean up all stopped containers and images:
+To clean up stopped containers and images:
 
 ```bash
 docker system prune -a
@@ -81,8 +93,4 @@ docker system prune -a
 
 ## 💬 Issues and Contributions
 
-Feel free to open issues for any bugs or feature requests. Contributions are welcome through pull requests to help improve the project!
-
-## 📜 License
-
-This project is licensed under the [MIT License](LICENSE).
+Open issues for bugs or feature requests. Contributions are welcome via pull requests!
