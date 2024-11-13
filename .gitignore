@@ -30,9 +30,6 @@ __pycache__/
 # Arquivos de banco de dados local (caso tenha algum)
 *.sqlite3
 
-# Pasta de migrations automáticas do Alembic
-migrations/versions/
-
 # Outros arquivos e diretórios comuns a serem ignorados
 *.egg-info/
 dist/

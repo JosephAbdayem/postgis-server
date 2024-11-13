@@ -24,7 +24,7 @@ cd postgis-server
 Use Docker Compose to build and run the containers. This command sets up the FastAPI application, PostgreSQL with PostGIS, and GeoServer.
 
 ```bash
-docker-compose up --build
+docker-compose up --build -d
 ```
 
 - `--build` ensures fresh images are built for any recent code changes.

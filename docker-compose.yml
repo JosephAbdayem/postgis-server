@@ -1,24 +1,34 @@
 services:
+  # PostgreSQL/PostGIS service
   postgres:
-    image: postgis/postgis:latest
+    image: postgis/postgis:latest  # PostGIS image with PostgreSQL for spatial data support
     environment:
-      POSTGRES_USER: geoserver
-      POSTGRES_PASSWORD: geoserver_password
-      POSTGRES_DB: geodata
+      POSTGRES_USER: geoserver          # PostgreSQL username
+      POSTGRES_PASSWORD: geoserver_password  # PostgreSQL password
+      POSTGRES_DB: geodata              # Name of the initial database to create
     networks:
-      - geoserver_network
+      - geoserver_network               # Custom network for inter-service communication
     ports:
-      - "5432:5432"
+      - "5432:5432"                     # Map PostgreSQL port to host for direct access
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "geoserver"]  # Health check to ensure database readiness
+      interval: 10s                                  # Check interval
+      retries: 5                                     # Number of retries before failing
+      start_period: 30s                              # Wait before starting health checks
 
+  # GeoServer service
   geoserver:
-    image: oscarfonts/geoserver:latest
+    image: oscarfonts/geoserver:latest  # GeoServer image for web mapping and spatial data serving
     networks:
-      - geoserver_network
+      - geoserver_network               # Use the same network for communication with PostgreSQL
     ports:
-      - "8080:8080"
+      - "8080:8080"                     # Expose GeoServer on host port 8080
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy      # Start GeoServer only after PostgreSQL is healthy
 
+# Define a custom network for isolated inter-service communication
 networks:
   geoserver_network:
-    driver: bridge
+    driver: bridge                      # Use bridge driver for network isolation
+    name: geoserver_network             # Custom name for network
